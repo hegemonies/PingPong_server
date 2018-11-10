@@ -1,0 +1,9 @@
+C:\Users\Даниил\Documents\Visual Studio 2015\Projects\Bomberman_server\Bomberman_server\bin\Debug\Bomberman_server.exe.config
+C:\Users\Даниил\Documents\Visual Studio 2015\Projects\Bomberman_server\Bomberman_server\bin\Debug\Bomberman_server.exe
+C:\Users\Даниил\Documents\Visual Studio 2015\Projects\Bomberman_server\Bomberman_server\bin\Debug\Bomberman_server.pdb
+C:\Users\Даниил\Documents\Visual Studio 2015\Projects\Bomberman_server\Bomberman_server\obj\Debug\PingPong_server.csprojResolveAssemblyReference.cache
+C:\Users\Даниил\Documents\Visual Studio 2015\Projects\Bomberman_server\Bomberman_server\obj\Debug\Bomberman_server.exe
+C:\Users\Даниил\Documents\Visual Studio 2015\Projects\Bomberman_server\Bomberman_server\obj\Debug\Bomberman_server.pdb
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\bin\Debug\Bomberman_server.exe.config
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\obj\Debug\Bomberman_server.exe
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\obj\Debug\Bomberman_server.pdb
