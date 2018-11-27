@@ -19,5 +19,21 @@ namespace PingPong_server {
 
             sstr = new_str;
         }
+
+        public static int getRandomY() {
+            Random rand = new Random();
+
+            int y = rand.Next() % 3;
+
+            if (y == 0) {
+                y = -1;
+            } else if (y == 1) {
+                y = 0;
+            } else if (y == 2) {
+                y = 1;
+            }
+
+            return y;
+        }
     }
 }
