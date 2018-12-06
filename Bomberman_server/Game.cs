@@ -26,7 +26,7 @@ namespace PingPong_server {
                 answer = Encoding.Default.GetString(buffer).Split(';');
                 command = answer[0];
                 try {
-                    Helper.DeleteSpaces(ref command);
+                    command = Helper.DeleteSpaces(command);
                 } catch {
                     return;
                 }
@@ -166,50 +166,115 @@ namespace PingPong_server {
             StartGame(session);
         }
         public void StartGame(Sessions session) {
-            var streamLeft = new NetworkStream(session.Left.socket);
-            var streamRight = new NetworkStream(session.Right.socket);
+            NetworkStream streamLeft;
+            NetworkStream streamRight;
+
+            try {
+                streamLeft = new NetworkStream(session.Left.socket);
+                streamRight = new NetworkStream(session.Right.socket);
+            } catch {
+                return;
+            }
+
+            string readyLeft;
+            string readyRight;
+            byte[] rLeft = new byte[5];
+            byte[] rRight = new byte[5];
+
+            try {
+                streamLeft.Read(rLeft, 0, 5);
+                streamRight.Read(rRight, 0, 5);
+            } catch { }
+
+            readyLeft = Encoding.Default.GetString(rLeft);
+            readyRight = Encoding.Default.GetString(rRight);
+
+            if (readyLeft != "READY" || readyRight != "READY") {
+                return;
+            } else {
+                streamLeft.Write(Encoding.Default.GetBytes("START"), 0, 5);
+                streamRight.Write(Encoding.Default.GetBytes("START"), 0, 5);
+            }
 
             int sizeClientBuffer = 2;
-            int sizeServerBuffer = 22;
+            int sizeServerBuffer = 24;
 
             var bufferLeft = new byte[sizeClientBuffer];
             var bufferRight = new byte[sizeClientBuffer];
             var sendBuffer = new byte[sizeServerBuffer];
 
-            int[] startPosBall = { 29, 11 };
+            int startPosBallX = 28;
+            int startPosBallY = 11;
+            int[] PosBall = { startPosBallX, startPosBallY };
 
             int scoreLeft = 0;
             int scoreRight = 0;
 
-            string sendString;
-
-            while (true) {
+            string sendString = null;
+            var GR = new GameRules();
+            int count = 0;
+            while (scoreLeft < 5 && scoreRight < 5) {
                 Array.Clear(bufferLeft, 0, bufferLeft.Length);
                 Array.Clear(bufferRight, 0, bufferRight.Length);
                 Array.Clear(sendBuffer, 0, sendBuffer.Length);
 
-                streamLeft.Read(bufferLeft, 0, sizeClientBuffer);
-                streamRight.Read(bufferRight, 0, sizeClientBuffer);
+                Thread.Sleep(510);
+
+                try {
+                    streamLeft.Read(bufferLeft, 0, sizeClientBuffer);
+                    streamRight.Read(bufferRight, 0, sizeClientBuffer);
+                } catch {
+                    break;
+                }
+
 
                 string raw = Encoding.Default.GetString(bufferLeft);
+                raw = Helper.DeleteSpaces(raw);
                 int posLeft = int.Parse(raw);
                 raw = Encoding.Default.GetString(bufferRight);
                 int posRight = int.Parse(raw);
 
-                var GR = new GameRules();
-                string turnAction = GR.Turn(posLeft, posRight, startPosBall);
+                string turnAction = GR.Turn(posLeft, posRight, PosBall);
 
                 if (turnAction == "LEFTLOSE") {
                     scoreRight++;
-                    sendString = "LOSE;LEFT";
+                    PosBall[0] = startPosBallX;
+                    PosBall[1] = startPosBallY;
                 } else if (turnAction == "RIGHTLOSE") {
-                    sendString = "LOSE;RIGHT";
-                } else if (turnAction == "") {
+                    scoreLeft++;
+                    PosBall[0] = startPosBallX;
+                    PosBall[1] = startPosBallY;
+                } else if (turnAction == "OK") {
 
                 }
 
-                streamLeft.Write(sendBuffer, 0, sizeServerBuffer);
-                streamRight.Write(sendBuffer, 0, sizeServerBuffer);
+                sendString = "MOTION;" + 
+                            posLeft + ";" + posRight + ";" + 
+                            PosBall[0] + "," + PosBall[1] + ";" + 
+                            scoreLeft + "," + scoreRight;
+
+                Console.WriteLine(count + " " + sendString);
+                count++;
+
+                sendBuffer = Encoding.Default.GetBytes(sendString);
+                try {
+                    streamLeft.Write(sendBuffer, 0, sendBuffer.Length);
+                    streamRight.Write(sendBuffer, 0, sendBuffer.Length);
+                } catch { }
+            }
+
+            if (scoreLeft == 5) {
+                sendBuffer = Encoding.Default.GetBytes("ACTION;LOSE");
+                streamRight.Write(sendBuffer, 0, sendBuffer.Length);
+
+                sendBuffer = Encoding.Default.GetBytes("ACTION;WIN");
+                streamLeft.Write(sendBuffer, 0, sendBuffer.Length);
+            } else if (scoreRight == 5) {
+                sendBuffer = Encoding.Default.GetBytes("ACTION;LOSE");
+                streamLeft.Write(sendBuffer, 0, sendBuffer.Length);
+
+                sendBuffer = Encoding.Default.GetBytes("ACTION;WIN");
+                streamRight.Write(sendBuffer, 0, sendBuffer.Length);
             }
 
             streamLeft.Close();

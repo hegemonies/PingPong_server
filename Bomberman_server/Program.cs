@@ -36,7 +36,7 @@ namespace PingPong_server {
                         byte[] buf = new byte[20];
                         client.Receive(buf);
                         string nickName = Encoding.Default.GetString(buf);
-                        Helper.DeleteSpaces(ref nickName);
+                        nickName = Helper.DeleteSpaces(nickName);
                         Player player = new Player(client, nickName, PlayerStatus.Smoker);
 
                         Console.WriteLine("{0} entered", nickName);

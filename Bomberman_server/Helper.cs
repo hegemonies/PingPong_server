@@ -6,18 +6,30 @@ using System.Threading.Tasks;
 
 namespace PingPong_server {
     class Helper {
-        public static void DeleteSpaces(ref string sstr) {
-            int i = sstr.Length - 1;
-            for (; !char.IsLetterOrDigit(sstr[i]) && !char.IsSymbol(sstr[i]); i--) { }
+        //public static void DeleteSpaces(ref string sstr) {
+        //    int i = sstr.Length - 1;
+        //    for (; !char.IsLetterOrDigit(sstr[i]) && !char.IsSymbol(sstr[i]); i--) { }
 
-            i++;
+        //    i++;
 
-            string new_str = string.Empty;
-            for (int j = 0; j < i; j++) {
-                new_str += sstr[j];
+        //    string new_str = string.Empty;
+        //    for (int j = 0; j < i; j++) {
+        //        new_str += sstr[j];
+        //    }
+
+        //    sstr = new_str;
+        //}
+
+        public static string DeleteSpaces(string str) {
+            int countSpaces = 0;
+            for (int i = str.Length - 1; !char.IsWhiteSpace(str[i]) &&
+                                        !char.IsLetterOrDigit(str[i]) &&
+                                        !char.IsSymbol(str[i]); i--) {
+                countSpaces++;
             }
+            str = str.Substring(0, str.Length - countSpaces);
 
-            sstr = new_str;
+            return str;
         }
 
         public static int getRandomY() {
