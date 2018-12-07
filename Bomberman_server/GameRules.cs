@@ -20,28 +20,49 @@ namespace PingPong_server {
             int y = posBall[1];
 
             if (x == leftPlaceGoal) {
-                velocityX = 1;
-                velocityY = 0;
+                velocityX = Helper.getRandomX();
+                velocityY = Helper.getRandomY();
                 return "LEFTLOSE";
             } else if (x == rightPlaceGoal) {
-                velocityX = 1;
-                velocityY = 0;
+                velocityX = Helper.getRandomX();
+                velocityY = Helper.getRandomY();
                 return "RIGHTLOSE";
             } else if ((x == leftPlaceGoal + 1) && (y == posLeft)) {
                 velocityX = 1;
                 velocityY = Helper.getRandomY();
-                Console.WriteLine("beat off on the left");
             } else if ((x == rightPlaceGoal - 1) && (y == posRight)) {
                 velocityX = -1;
                 velocityY = Helper.getRandomY();
-                Console.WriteLine("beat off on the right");
             } else if (y == topLine) {
                 velocityY = 1;
-                Console.WriteLine("rested up");
             } else if (y == bottomLine) {
                 velocityY = -1;
-                Console.WriteLine("rested down");
+            } else if ((x == rightPlaceGoal - 1) && (y == posRight - 1)) {
+                velocityX = -1;
+                velocityY = Helper.getRandomY();
+            } else if ((x == rightPlaceGoal - 1) && (y == posRight + 1)) {
+                velocityX = -1;
+                velocityY = Helper.getRandomY();
+            } else if ((x == leftPlaceGoal + 1) && (y == posLeft - 1)) {
+                velocityX = 1;
+                velocityY = Helper.getRandomY();
+            } else if ((x == leftPlaceGoal + 1) && (y == posLeft + 1)) {
+                velocityX = 1;
+                velocityY = Helper.getRandomY();
             }
+            //else if ((velocityX == -1) && (velocityY == -1) && (posLeft == y - 1) && (x == leftPlaceGoal + 1)) {
+            //    velocityX = 1;
+            //    velocityY = Helper.getRandomY();
+            //} else if ((velocityX == -1) && (velocityY == 1) && (posLeft == y + 1) && (x == leftPlaceGoal + 1)) {
+            //    velocityX = 1;
+            //    velocityY = Helper.getRandomY();
+            //} else if ((velocityX == 1) && (velocityY == -1) && (posRight == y - 1) && (x == rightPlaceGoal - 1)) {
+            //    velocityX = -1;
+            //    velocityY = Helper.getRandomY();
+            //} else if ((velocityX == 1) && (velocityY == 1) && (posRight == y + 1) && (x == rightPlaceGoal - 1)) {
+            //    velocityX = -1;
+            //    velocityY = Helper.getRandomY();
+            //}
 
             x += velocityX;
             y += velocityY;

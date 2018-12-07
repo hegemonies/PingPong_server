@@ -47,5 +47,16 @@ namespace PingPong_server {
 
             return y;
         }
+        public static int getRandomX() {
+            Random rand = new Random();
+
+            int x = rand.Next() % 2;
+
+            if (x == 0) {
+                x = -1;
+            }
+
+            return x;
+        }
     }
 }

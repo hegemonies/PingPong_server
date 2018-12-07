@@ -152,7 +152,7 @@ namespace PingPong_server {
         public void PrepareToGame(Player player, int GID) {
             Sessions session = GetSession(GID);
             while (session.status == SessionStatus.Free) {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             }
 
             Console.WriteLine("WOW {0} and {1} started the game [{2}]", session.Left.nickName, session.Right.nickName, session.GID);
@@ -218,7 +218,7 @@ namespace PingPong_server {
                 Array.Clear(bufferRight, 0, bufferRight.Length);
                 Array.Clear(sendBuffer, 0, sendBuffer.Length);
 
-                Thread.Sleep(510);
+                //Thread.Sleep(510);
 
                 try {
                     streamLeft.Read(bufferLeft, 0, sizeClientBuffer);
@@ -253,7 +253,7 @@ namespace PingPong_server {
                             PosBall[0] + "," + PosBall[1] + ";" + 
                             scoreLeft + "," + scoreRight;
 
-                Console.WriteLine(count + " " + sendString);
+                //Console.WriteLine(count + " " + sendString);
                 count++;
 
                 sendBuffer = Encoding.Default.GetBytes(sendString);
