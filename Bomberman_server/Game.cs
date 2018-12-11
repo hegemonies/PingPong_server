@@ -166,6 +166,7 @@ namespace PingPong_server {
             StartGame(session);
         }
         public void StartGame(Sessions session) {
+            new Thread(ChatUp).Start(session);
             NetworkStream streamLeft;
             NetworkStream streamRight;
 
@@ -279,6 +280,41 @@ namespace PingPong_server {
 
             streamLeft.Close();
             streamRight.Close();
+        }
+
+        private void ChatUp(object _session) {
+            new Thread(ChatHandler).Start(_session);
+
+            Sessions session = (Sessions)_session;
+
+            int sizeChatMsg = 100;
+            byte[] chatBuffer = new byte[sizeChatMsg];
+
+            try {
+                while (true) {
+                    Array.Clear(chatBuffer, 0, sizeChatMsg);
+                    session.Left.chatSocket.Receive(chatBuffer);
+                    session.Right.chatSocket.Send(chatBuffer);
+                }
+            } catch {
+
+            }
+        }
+        private void ChatHandler(object _session) {
+            Sessions session = (Sessions)_session;
+
+            int sizeChatMsg = 100;
+            byte[] chatBuffer = new byte[sizeChatMsg];
+
+            try {
+                while (true) {
+                    Array.Clear(chatBuffer, 0, sizeChatMsg);
+                    session.Right.chatSocket.Receive(chatBuffer);
+                    session.Left.chatSocket.Send(chatBuffer);
+                }
+            } catch {
+
+            }
         }
     }
 }

@@ -9,10 +9,12 @@ namespace PingPong_server {
     class Player {
         public string nickName { get; }
         public Socket socket { get; }
+        public Socket chatSocket { get; }
         PlayerStatus status;
 
-        public Player(Socket socket, string nickName, PlayerStatus status) {
+        public Player(Socket socket, Socket chatSocket, string nickName, PlayerStatus status) {
             this.socket = socket;
+            this.chatSocket = chatSocket;
             this.nickName = nickName;
             this.status = status;
         }
