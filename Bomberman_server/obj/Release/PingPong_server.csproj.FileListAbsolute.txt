@@ -1,0 +1,5 @@
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\bin\Release\Bomberman_server.exe.config
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\bin\Release\Bomberman_server.exe
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\bin\Release\Bomberman_server.pdb
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\obj\Release\Bomberman_server.exe
+C:\Users\Даниил\Source\Repos\PingPong_server\Bomberman_server\obj\Release\Bomberman_server.pdb
